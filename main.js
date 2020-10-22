@@ -24,11 +24,8 @@ var max_score = max - 16;
 var bombs = bombsGenerator(min, max);
 console.log('Mine: ' + bombs);
 
-//scelta dell'utente
-var user_choice;
-
 //inizia il gioco
-user_score = playGame(user_choice);
+user_score = playGame();
 //stampa punteggio
 console.log('Punteggio: ' + user_score + '/' + max_score);
 
@@ -64,11 +61,13 @@ function bombsGenerator(min, max){
 }
 
 //fa partire il gioco
-function playGame(user_number){
-    //se bomb_found diventa true, l'utente ha perso
-    var bomb_found = false;
+function playGame(){
+
+    var user_number;
     //numeri che l'utente indovina e che non potra reinserire
     var selected_numbers = [];
+    //se bomb_found diventa true, l'utente ha perso
+    var bomb_found = false;
     //punteggio
     var score = 0;
 
