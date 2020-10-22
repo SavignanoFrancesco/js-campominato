@@ -9,6 +9,8 @@ var difficulty = 0;
 //i numeri rnd devono assumere un valore tra min e max
 var min = 1;
 var max;
+//se boom_flag diventa true, l'utente ha perso
+var boom_flag = false;
 
 //tre livelli di difficoltà
 max = selectDifficulty(difficulty);
@@ -17,6 +19,18 @@ console.log('Max: ' + max);
 //array contenente le mine
 var bombs = bombsGenerator(min, max);
 console.log('Mine: ' + bombs);
+
+//richiesta di un numero all'utente tra min e max
+// do {
+//     do {
+//         var user_number = parseInt(prompt('Inserire un numero tra ' + min + ' e ' + max));
+//
+//         if (user_number < 1 || user_number > 100 || isNaN(user_number)) {
+//             alert('Inserimento sbagliato..');
+//         }
+//     } while (user_number < 1 || user_number > 100 || isNaN(user_number));
+//     console.log('User Number: ' + user_number);
+// } while (boom_flag == false);
 
 
 //FUNZIONI
@@ -38,12 +52,14 @@ function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
-//funzione che genera 16 numeri random
+//funzione che genera 16 numeri random diversi tra loro, con valore tra min e max
 function bombsGenerator(min, max){
     var rnd_numbers = [];
-    for (var i = 0; i < 16; i++) {
+    while(rnd_numbers.length < 16) {
         var rnd_number = getRndInteger(min, max);
-        rnd_numbers.push(rnd_number);
+        if (!(rnd_numbers.includes(rnd_number))) {
+            rnd_numbers.push(rnd_number);
+        }
     }
     return rnd_numbers;
 }
