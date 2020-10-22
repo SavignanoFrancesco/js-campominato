@@ -2,44 +2,56 @@
 //Dopodiché, il programma deve chiedere all'utente un numero alla volta e verificare se il numero indicato dall'utente è una mina oppure no.
 //Se l'utente becca una mina, il gioco finisce, mentre, se il numero non corrisponde ad una mina, il gioco prosegue e il programma chiede all'utente un nuovo numero.
 //Alla fine della partita, il programma comunica all'utente il suo punteggio, cioè quanti numeri è riuscito ad inserire prima che il gioco finisse.
+//BONUS (facoltativo): all'inizio del gioco, il programma chiede all'utente il livello di difficoltà:
+//0 = l'intervallo di numeri possibili è tra 1 e 100
+//1 = l'intervallo di numeri possibili è tra 1 e 80
+//2 = l'intervallo di numeri possibili è tra 1 e 50
+//In ogni caso, le mine sono sempre 16.
 
-
-//difficoltà
-var difficulty = 0;
-//i numeri rnd devono assumere un valore tra min e max
-var min = 1;
-var max;
+//i numeri rnd devono assumere un valore tra min e bombs_range
+var min_number = 1;
+var bombs_range;
 //Punteggio
 var user_score;
 
-//tre livelli di difficoltà
-max = selectDifficulty(difficulty);
-console.log('Difficoltà: ' + difficulty);
-console.log('Max: ' + max);
+//ritorna il massimo numero generabile a seconda della difficoltà scelta
+bombs_range = selectDifficulty();
+console.log('Max: ' + bombs_range);
 
-//punteggio massimo
-var max_score = max - 16;
+//punteggio massimo = valore massimo generato - quantità di bombe generate
+var max_score = bombs_range - 16;
 
-//array contenente le mine
-var bombs = bombsGenerator(min, max);
+//restituisce l'array contenente le mine
+var bombs = bombsGenerator(min_number, bombs_range);
 console.log('Mine: ' + bombs);
 
 //inizia il gioco
-user_score = playGame();
+user_score = playGame(bombs_range);
 //stampa punteggio
 console.log('Punteggio: ' + user_score + '/' + max_score);
 
 //FUNZIONI
 //funzione che restituisce il range delle mine generate
-function selectDifficulty(int_value){
+function selectDifficulty(){
     var range;
-    if(int_value == 0){
-        range = 100;
-    }else if (int_value == 1) {
-        range = 80;
-    }else if (int_value = 2) {
-        range = 50;
-    }
+    var int_value;
+    do {
+        int_value = parseInt(prompt('Seleziona la difficoltà: 0 = Facile ; 1 = Intermedio ; 2 = Difficile'));
+            if(int_value == 0){
+                range = 100;
+                console.log('Modalità Facile');
+            }else if (int_value == 1) {
+                range = 80;
+                console.log('Modalità Intermedia');
+            }else if (int_value == 2) {
+                console.log('Modalità Difficile');
+                range = 50;
+            }
+            if (int_value < 0 || int_value > 2 || isNaN(int_value)) {
+                alert('Inserimento sbagliato..');
+            }
+    } while (int_value < 0 || int_value > 2 || isNaN(int_value));
+
     return range;
 }
 
@@ -61,7 +73,7 @@ function bombsGenerator(min, max){
 }
 
 //fa partire il gioco
-function playGame(){
+function playGame(bombs_range){
 
     var user_number;
     //numeri che l'utente indovina e che non potra reinserire
@@ -79,15 +91,15 @@ function playGame(){
 
         //richiesta di un numero all'utente tra min e max(con controllo del valore inserito)
         do {
-            user_number = parseInt(prompt('Inserire un numero tra ' + min + ' e ' + max));
+            user_number = parseInt(prompt('Inserire un numero tra 1 e ' + bombs_range));
 
-            if (user_number < 1 || user_number > 100 || isNaN(user_number)) {
+            if (user_number < 1 || user_number > bombs_range || isNaN(user_number)) {
                 alert('Inserimento sbagliato..');
             }else if (selected_numbers.includes(user_number)) {
                 alert('numero gia inserito!');
             }
 
-        } while (user_number < 1 || user_number > 100 || isNaN(user_number) || (selected_numbers.includes(user_number)));
+        } while (user_number < 1 || user_number > bombs_range || isNaN(user_number) || (selected_numbers.includes(user_number)));
         console.log('User Number: ' + user_number);
 
         //se l'utente trova un numero bomba perde
