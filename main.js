@@ -16,7 +16,7 @@ var user_score;
 
 //ritorna il massimo numero generabile a seconda della difficoltà scelta
 bombs_range = selectDifficulty();
-console.log('Max: ' + bombs_range);
+console.log('Bombs Range: ' + bombs_range);
 
 //punteggio massimo = valore massimo generato - quantità di bombe generate
 var max_score = bombs_range - 16;
@@ -114,5 +114,8 @@ function playGame(bombs_range){
         }
 
     } while (bomb_found == false && score != (max_score));
+    if (score == max_score) {
+        console.log('COMPLIMENTI HAI VINTO!!!');
+    }
     return score;
 }
