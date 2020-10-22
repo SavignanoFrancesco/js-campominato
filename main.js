@@ -9,29 +9,59 @@ var difficulty = 0;
 //i numeri rnd devono assumere un valore tra min e max
 var min = 1;
 var max;
-//se boom_flag diventa true, l'utente ha perso
-var boom_flag = false;
+//se bomb_found diventa true, l'utente ha perso
+var bomb_found = false;
+//punteggio
+var score = 0;
 
 //tre livelli di difficoltà
 max = selectDifficulty(difficulty);
+console.log('Difficoltà: ' + difficulty);
 console.log('Max: ' + max);
+
+//punteggio massimo
+var max_score = max - 16;
 
 //array contenente le mine
 var bombs = bombsGenerator(min, max);
 console.log('Mine: ' + bombs);
 
-//richiesta di un numero all'utente tra min e max
-// do {
-//     do {
-//         var user_number = parseInt(prompt('Inserire un numero tra ' + min + ' e ' + max));
-//
-//         if (user_number < 1 || user_number > 100 || isNaN(user_number)) {
-//             alert('Inserimento sbagliato..');
-//         }
-//     } while (user_number < 1 || user_number > 100 || isNaN(user_number));
-//     console.log('User Number: ' + user_number);
-// } while (boom_flag == false);
+//scelta dell'utente
+var user_number;
 
+//numeri che l'utente indovina e che non potra reinserire
+var selected_numbers = [];
+
+//ripeti fino a che l'utente non trova una bomba o raggiunge il punteggio massimo
+do {
+
+    //richiesta di un numero all'utente tra min e max(con controllo del valore inserito)
+    do {
+        user_number = parseInt(prompt('Inserire un numero tra ' + min + ' e ' + max));
+
+        if (user_number < 1 || user_number > 100 || isNaN(user_number)) {
+            alert('Inserimento sbagliato..');
+        }else if (selected_numbers.includes(user_number)) {
+            alert('numero gia inserito!');
+        }
+
+    } while (user_number < 1 || user_number > 100 || isNaN(user_number) || (selected_numbers.includes(user_number)));
+    console.log('User Number: ' + user_number);
+
+    //se l'utente trova un numero bomba perde
+    if(bombs.includes(user_number)){
+        bomb_found = true;
+        console.log('Mi dispaice hai perso..');
+    }
+    //altrimenti aumenta il punteggio di uno e aggiunge il numero a quelli che non può reinserire
+    else{
+        score += 1;
+        selected_numbers.push(user_number);
+    }
+
+} while (bomb_found == false && score != (max_score));
+//stampa punteggio
+console.log('Punteggio: ' + score + '/' + max_score);
 
 //FUNZIONI
 //funzione che restituisce il range delle mine generate
