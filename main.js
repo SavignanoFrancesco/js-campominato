@@ -74,7 +74,7 @@ function bombsGenerator(min, max, quantity){
     return rnd_numbers;
 }
 
-//controlla se il numero inserito dall'utente è valido
+//controlla se il numero inserito dall'utente è valido(deve essere tra 1 e max_bomb_value e non deve essere gia stato inserito in precedenza)
 function checkUserNumber(max_value, existing_numbers){
     var int_number;
     do {
