@@ -24,7 +24,7 @@ console.log('Bombs Range: ' + bomb_max_value);
 var max_score = bomb_max_value - bomb_quantity;
 
 //restituisce l'array contenente le mine
-var bombs = bombsGenerator(min_number, bomb_max_value);
+var bombs = bombsGenerator(min_number, bomb_max_value, bomb_quantity);
 console.log('Mine: ' + bombs);
 
 //inizia il gioco
@@ -63,9 +63,9 @@ function getRndInteger(min, max) {
 }
 
 //funzione che genera 16 numeri random diversi tra loro, con valore tra min e max
-function bombsGenerator(min, max){
+function bombsGenerator(min, max, quantity){
     var rnd_numbers = [];
-    while(rnd_numbers.length < 16) {
+    while(rnd_numbers.length < quantity) {
         var rnd_number = getRndInteger(min, max);
         if (!(rnd_numbers.includes(rnd_number))) {
             rnd_numbers.push(rnd_number);
