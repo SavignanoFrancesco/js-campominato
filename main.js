@@ -74,6 +74,22 @@ function bombsGenerator(min, max, quantity){
     return rnd_numbers;
 }
 
+//controlla se il numero inserito dall'utente è valido
+function checkUserNumber(max_value, existing_numbers){
+    var int_number;
+    do {
+        int_number = parseInt(prompt('Inserire un numero tra 1 e ' + max_value));
+
+        if (int_number < 1 || int_number > max_value || isNaN(int_number)) {
+            alert('Inserimento sbagliato..');
+        }else if (existing_numbers.includes(int_number)) {
+            alert('numero gia inserito!');
+        }
+
+    } while (int_number < 1 || int_number > max_value || isNaN(int_number) || (existing_numbers.includes(int_number)));
+    return int_number;
+}
+
 //fa partire il gioco
 function playGame(bomb_max_value){
 
@@ -91,17 +107,7 @@ function playGame(bomb_max_value){
     //ripeti fino a che l'utente non trova una bomba o raggiunge il punteggio massimo
     do {
 
-        //richiesta di un numero all'utente tra min e max(con controllo del valore inserito)
-        do {
-            user_number = parseInt(prompt('Inserire un numero tra 1 e ' + bomb_max_value));
-
-            if (user_number < 1 || user_number > bomb_max_value || isNaN(user_number)) {
-                alert('Inserimento sbagliato..');
-            }else if (selected_numbers.includes(user_number)) {
-                alert('numero gia inserito!');
-            }
-
-        } while (user_number < 1 || user_number > bomb_max_value || isNaN(user_number) || (selected_numbers.includes(user_number)));
+        user_number = checkUserNumber(bomb_max_value, selected_numbers);
         console.log('User Number: ' + user_number);
 
         //se l'utente trova un numero bomba perde
